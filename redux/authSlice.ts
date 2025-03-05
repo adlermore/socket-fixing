@@ -54,11 +54,7 @@ export const login = createAsyncThunk(
             }
 
             const data = await response.json();
-            if (typeof window !== "undefined") {
-                localStorage.setItem("token", data.token);
-                Cookies.set("token", data.token, { expires: 7 });
-            }
-
+            Cookies.set("token", data.token, { expires: 7 });
             return data;
         } catch (error) {
             if (error instanceof Error) {
@@ -91,9 +87,7 @@ export const register = createAsyncThunk(
             }
 
             const data = await response.json();
-            if (typeof window !== "undefined") {
-                localStorage.setItem("token", data.token);
-            }
+            Cookies.set("token", data.token, { expires: 7 });
 
             return data;
         } catch (error) {
@@ -128,11 +122,7 @@ export const logout = createAsyncThunk(
                 return rejectWithValue(errorData);
             }
 
-            // Remove token from localStorage
-            if (typeof window !== "undefined") {
-                localStorage.removeItem("token");
-                Cookies.remove("token");
-            }
+            Cookies.remove("token");
             return {};
         } catch (error) {
             if (error instanceof Error) {
@@ -205,7 +195,6 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
                 toast.success("Login successful!");
-                document.body.classList.remove("login_opened");
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = "failed";
@@ -224,13 +213,11 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
                 toast.success("Registration successful!");
-                document.body.classList.remove("register_opened");
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = (action.payload as { detail: string }).detail || action.error.message || null;
                 toast.error(`Register failed: ${state.error}`);
-                document.body.classList.remove("register_opened");
             });
 
         // Logout handlers
@@ -271,7 +258,7 @@ const authSlice = createSlice({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const initializeAuth = () => (dispatch: any) => {
     if (typeof window !== "undefined") {
-        const token = localStorage.getItem("token");
+        const token = Cookies.get("token");
         if (token) {
             dispatch(setToken(token));
             dispatch(fetchUserInfo());
