@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
-export function middleware(request) {
+import { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
     const isAuthenticated = request.cookies.get('isAuthenticated');
     
     if (!isAuthenticated && request.nextUrl.pathname.startsWith('/dashboard')) {
