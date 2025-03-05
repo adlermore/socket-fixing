@@ -12,7 +12,7 @@ interface AuthState {
 }
 
 interface LoginCredentials {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -279,4 +279,5 @@ export const initializeAuth = () => (dispatch: any) => {
 
 // Export actions and reducer
 export const { setAuthenticated, setUser, setToken } = authSlice.actions;
+export const selectStatus = (initialState: { status: string; }) => initialState?.status
 export default authSlice.reducer;

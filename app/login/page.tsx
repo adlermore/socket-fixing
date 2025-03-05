@@ -1,11 +1,12 @@
 'use client'
 
 import React, { useRef, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validation/loginSchema";
-import { login } from "@/redux/authSlice";
+import { login, selectStatus } from "@/redux/authSlice";
+import { AppDispatch } from "@/redux/store";
 
 interface LoginData {
   email: string;
@@ -14,23 +15,21 @@ interface LoginData {
 
 export default function LoginPage() {
   const ref = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+
   const [showPass, setShowPass] = useState(false);
+
+  const status = useSelector(selectStatus)
 
   // Validation init
   const {
-    register: loginForm,
-    reset,
-    handleSubmit: handleSubmitForm,
-    formState: { errors: errorsLogin },
-  } = useForm<LoginData>({
-    resolver: zodResolver(loginSchema),
-  });
-
+    register: loginForm, reset, handleSubmit: handleSubmitForm, formState: { errors: errorsLogin } } = useForm<LoginData>({
+      resolver: zodResolver(loginSchema),
+    });
 
   // Submission Data
-  const loginSubmit = async (dataForm: LoginData) => {
-    dispatch(login(dataForm));
+  const loginSubmit = async (data: LoginData) => {
+    dispatch(login(data));
     reset();
   };
 
@@ -39,28 +38,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login_popu">
-      <div
-        className="popup_container"
-        ref={ref}
-      >
+    <div className="auth_container">
+      <div className="auth_inner" ref={ref}>
         <div className="title_line  w-full gap-10">
-          <div className="popup_title text-[25px] uppercase mobile:text-xl ">Sign in</div>
+          <div className="auth_title text-[25px] uppercase mobile:text-xl ">Sign in</div>
           {status === "failed" && (
             <div className="text-siteRed text-center">
               Incorrect Email or Password
             </div>
           )}
-          <button className="close_btn">Close X</button>
         </div>
-        <div className="login_form mt-[25px]">
+        <div className="auth_form mt-[25px]">
           <form onSubmit={handleSubmitForm(loginSubmit)} className="w-full">
-            <div
-              className={
-                errorsLogin?.email ? "form_block has_error" : "form_block"
-              }
-            >
-              <div className="loginForm_label text-light mb-[10px]">Email*</div>
+            <div className={errorsLogin?.email ? "form_block has_error" : "form_block"}>
+              <div className="auth_label">Email*</div>
               <input
                 placeholder="Enter your email address"
                 autoComplete="on"
@@ -70,18 +61,10 @@ export default function LoginPage() {
                   pattern: /^\S+@\S+$/i,
                 })}
               />
-              <p className="form_error">
-                {errorsLogin?.email?.message}
-              </p>
+              <p className="form_error"> {errorsLogin?.email?.message}</p>
             </div>
-            <div
-              className={
-                errorsLogin?.password ? "form_block has_error" : "form_block"
-              }
-            >
-              <div className="loginForm_label text-base font-light mb-[10px]">
-                Password
-              </div>
+            <div className={errorsLogin?.password ? "form_block has_error" : "form_block"}>
+              <div className="auth_label"> Password </div>
               <input
                 placeholder="Enter password"
                 autoComplete="on"
@@ -89,9 +72,7 @@ export default function LoginPage() {
                 type={showPass ? "text " : "password"}
                 {...loginForm("password", { required: true, minLength: 5 })}
               />
-              <p className="form_error ">
-                {errorsLogin?.password?.message}
-              </p>
+              <p className="form_error">{errorsLogin?.password?.message}</p>
             </div>
             <div className="checkbox_line mt-[26px]">
               <label htmlFor="checkbox1">
@@ -100,12 +81,7 @@ export default function LoginPage() {
                 <span className="check_label">Show Password</span>
               </label>
             </div>
-            <button
-              type="submit"
-              className="login_submit"
-            >
-              Login
-            </button>
+            <button type="submit" className="login_submit">Login</button>
           </form>
         </div>
       </div>
