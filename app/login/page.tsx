@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validation/loginSchema";
 import { login, selectStatus } from "@/redux/authSlice";
 import { AppDispatch } from "@/redux/store";
+import Link from "next/link";
 
 interface LoginData {
   email: string;
@@ -82,6 +83,7 @@ export default function LoginPage() {
               </label>
             </div>
             <button type="submit" className="login_submit">Login</button>
+            <Link href='/register'>Registr Now</Link>
           </form>
         </div>
       </div>

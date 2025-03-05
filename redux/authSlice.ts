@@ -17,8 +17,10 @@ interface LoginCredentials {
 }
 
 interface RegisterInfo {
-    username: string;
+    name: string;
     email: string;
+    phone: string;
+    password_confirmation: string;
     password: string;
 }
 

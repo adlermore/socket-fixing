@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Cookies from 'js-cookie';
 
 interface RequestConfig {
