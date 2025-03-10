@@ -1,7 +1,8 @@
-export default function Home() {
-  return (
-    <div className="flex items-center justify-center h-full">
-       <div>Home</div>
-    </div>
-  );
-}
+import { redirect } from 'next/navigation';
+
+const Home: React.FC = () => {
+  redirect('/login');
+  return null;
+};
+
+export default Home;
