@@ -14,6 +14,21 @@ export default function DashboardPage() {
                 <span className="square_block"></span>
                 <span className="check_label">Show Password</span>
               </label>
+              <label htmlFor="checkbox1">
+                <input type="checkbox" id="checkbox1" />
+                <span className="square_block"></span>
+                <span className="check_label">Show Password</span>
+              </label>
+              <label htmlFor="checkbox1">
+                <input type="checkbox" id="checkbox1" />
+                <span className="square_block"></span>
+                <span className="check_label">Show Password</span>
+              </label>
+              <label htmlFor="checkbox1">
+                <input type="checkbox" id="checkbox1" />
+                <span className="square_block"></span>
+                <span className="check_label">Show Password</span>
+              </label>
             </div>
             <button type="submit" className="login_submit">Login</button>
             <Link href='/register'>Registr Now</Link>

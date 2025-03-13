@@ -83,7 +83,7 @@ export default function LoginPage() {
               </label>
             </div>
             <button type="submit" className="login_submit">Login</button>
-            <Link href='/register'>Registr Now</Link>
+            <Link href='/register' className="text-xl">Registr Now</Link>
           </form>
         </div>
       </div>
